@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameSettings : MonoBehaviour
 {
     private int _settings;
-    private const int SettingsNumber = 2;
+    private const int SettingsNumber = 1;//2;
 
     public enum EPairNumber
     {
@@ -81,6 +81,11 @@ public class GameSettings : MonoBehaviour
     {
         _settings = 0;
         _gameSettings.PairNumber = EPairNumber.NotSet;
-        _gameSettings.Category = ECategory.NotSet;
+        _gameSettings.Category = ECategory.Fruits;
+    }
+
+    public bool AllSettingsReady()
+    {
+        return _settings == SettingsNumber;
     }
 }
