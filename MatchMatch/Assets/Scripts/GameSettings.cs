@@ -88,4 +88,14 @@ public class GameSettings : MonoBehaviour
     {
         return _settings == SettingsNumber;
     }
+
+    public string GetMaterialDirectoryName()
+    {
+        return "Materials/";
+    }
+
+    public string GetCardFaceDirectoryName()
+    {
+        return "CardFaces/";
+    }
 }

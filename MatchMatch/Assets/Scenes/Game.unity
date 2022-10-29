@@ -686,6 +686,27 @@ MonoBehaviour:
   StartPosition: {x: -330, y: 100}
   Offset: {x: 220, y: 220}
   PictureList: []
+  _materialList:
+  - {fileID: 2100000, guid: fac34c4c64f0d480bab80b44a4d06d3a, type: 2}
+  - {fileID: 2100000, guid: 02a39f2d9662f4bc390fb7b432527f46, type: 2}
+  - {fileID: 2100000, guid: 33305904bdfd744b69ab18cfa0221849, type: 2}
+  - {fileID: 2100000, guid: 7a7edcdeb4bbe48d29193e13f6f689f2, type: 2}
+  - {fileID: 2100000, guid: e12e4eff5ef8941bc81f8c70ef6dbf19, type: 2}
+  - {fileID: 2100000, guid: a6781bac72e2840cdab83e274209eecd, type: 2}
+  - {fileID: 2100000, guid: d1a8e7962b99342d4a468eae9ff75f81, type: 2}
+  - {fileID: 2100000, guid: 0679495989b1141189cca62c9caa6d06, type: 2}
+  - {fileID: 2100000, guid: edb888f457d02462f94d2dd49fe328f9, type: 2}
+  - {fileID: 2100000, guid: c3489d8d93d2240efa4c13d394e50fcf, type: 2}
+  - {fileID: 2100000, guid: fac34c4c64f0d480bab80b44a4d06d3a, type: 2}
+  - {fileID: 2100000, guid: 02a39f2d9662f4bc390fb7b432527f46, type: 2}
+  - {fileID: 2100000, guid: 33305904bdfd744b69ab18cfa0221849, type: 2}
+  - {fileID: 2100000, guid: 7a7edcdeb4bbe48d29193e13f6f689f2, type: 2}
+  - {fileID: 2100000, guid: e12e4eff5ef8941bc81f8c70ef6dbf19, type: 2}
+  - {fileID: 2100000, guid: a6781bac72e2840cdab83e274209eecd, type: 2}
+  - {fileID: 2100000, guid: d1a8e7962b99342d4a468eae9ff75f81, type: 2}
+  - {fileID: 2100000, guid: 0679495989b1141189cca62c9caa6d06, type: 2}
+  - {fileID: 2100000, guid: edb888f457d02462f94d2dd49fe328f9, type: 2}
+  - {fileID: 2100000, guid: c3489d8d93d2240efa4c13d394e50fcf, type: 2}
 --- !u!4 &1414392074
 Transform:
   m_ObjectHideFlags: 0

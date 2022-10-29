@@ -13,9 +13,16 @@ public class PictureManager : MonoBehaviour
     [HideInInspector]
     public List<Picture> PictureList;
 
+    [SerializeField]
+    private List<Material> _materialList = new List<Material>();
+    private List<string> _texturePathList = new List<string>();
+    private Material _firstMaterial;
+    private string _firstTexturePath;
+
     // Start is called before the first frame update
     void Start()
     {
+        LoadMaterials();
         SpawnPictureMesh(4, 5, StartPosition, Offset, false);
     }
 
@@ -23,6 +30,29 @@ public class PictureManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void LoadMaterials()
+    {
+        string materialPath = GameSettings.Instance.GetMaterialDirectoryName();
+        string texturePath = GameSettings.Instance.GetCardFaceDirectoryName();
+        int pairNumber = (int)GameSettings.Instance.GetPairNumber();
+
+        const string matBaseName = "Pic ";
+        string firstMaterialName = "Back";
+
+        for(int i = 1; i <= 20; i++)
+        {
+            string currentPath = materialPath + matBaseName + i;
+            Material mat = Resources.Load(currentPath, typeof(Material)) as Material;
+            _materialList.Add(mat);
+
+            string currentTexturePath = texturePath + i;
+            _texturePathList.Add(currentTexturePath);
+
+            _firstTexturePath = texturePath + firstMaterialName;
+            _firstMaterial = Resources.Load(materialPath, typeof(Material)) as Material;
+        }
     }
 
     private void SpawnPictureMesh(int row, int col, Vector2 pos, Vector2 offset, bool scaleDown)
@@ -34,9 +64,68 @@ public class PictureManager : MonoBehaviour
                 PictureList.Add(pic);
             }
         }
-
+        ApplyTextures();
         MovePicture(row, col, pos, offset);
     }
+
+    private void ApplyTextures()
+    {
+        int i = 0;
+        foreach(var o in PictureList)
+        {
+            o.SetFirstMaterial(_firstMaterial, "");
+            o.SetSecondMaterial(_materialList[i++], "");
+            o.ApplySecondMaterial();
+        }
+    }
+    // public void ApplyTextures()
+    // {
+
+    //     print("Size: " + _materialList.Count);
+
+    //     int rndIndex = Random.Range(0, _materialList.Count);
+    //     var appliedTimes = new int[_materialList.Count];
+
+    //     for(int i = 0; i < _materialList.Count; i++)
+    //     {
+    //         appliedTimes[i] = 0;
+    //     }
+        
+    //     foreach(var o in PictureList)
+    //     {
+    //         var randPrev = rndIndex;
+    //         var counter = 0;
+    //         var forceMat = false;
+    //         print(rndIndex);
+    //         while(appliedTimes[rndIndex] >= 2 || ((randPrev == rndIndex) && !forceMat))
+    //         {
+    //             rndIndex = Random.Range(0, _materialList.Count);
+    //             counter++;
+    //             if(counter > 100)
+    //             {
+    //                 for(var j = 0; j < _materialList.Count; j++)
+    //                 {
+    //                     if(appliedTimes[j] < 2)
+    //                     {
+    //                         rndIndex = j;
+    //                         forceMat = true;
+    //                     }
+    //                 }
+
+    //                 if(!forceMat) return;
+    //             }
+    //         }
+
+    //         o.SetFirstMaterial(_firstMaterial, _firstTexturePath);
+    //         o.ApplyFirstMaterial();
+    //         o.SetSecondMaterial(_materialList[rndIndex], _texturePathList[rndIndex]);
+
+    //         o.ApplySecondMaterial();
+
+    //         appliedTimes[rndIndex]++;
+    //         forceMat = false;
+    //     }
+    // }
 
     private void MovePicture(int row, int col, Vector2 pos, Vector2 offset)
     {
