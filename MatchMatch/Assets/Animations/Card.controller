@@ -9,7 +9,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Player_Clicked
+    m_ConditionEvent: ShowBack
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5829836804805921921}
@@ -34,7 +34,13 @@ AnimatorController:
   m_Name: Card
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Player_Clicked
+  - m_Name: ShowBack
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: ShowFront
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -135,7 +141,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Player_Clicked
+    m_ConditionEvent: ShowFront
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5162391532744439787}

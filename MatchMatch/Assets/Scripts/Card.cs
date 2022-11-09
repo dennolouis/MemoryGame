@@ -5,16 +5,21 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
 
-    [SerializeField]
     Material back;
 
-    [SerializeField]
     Material front;
 
     Animator anim;
 
     MeshRenderer rend;
 
+    enum CardState
+    {
+        ShowingBack,
+        ShowingFront
+    };
+
+    CardState state;
 
     private void Start()
     {
@@ -24,22 +29,35 @@ public class Card : MonoBehaviour
     public void ApplyBackMaterial()
     {
         rend.sharedMaterial = back;
-        anim.SetBool("Player_Clicked", false);
+        anim.SetBool("ShowBack", false);
+        state = CardState.ShowingBack;
     }
     public void ApplyFrontMaterial()
     {
         rend.sharedMaterial = front;
-        anim.SetBool("Player_Clicked", false);
+        anim.SetBool("ShowFront", false);
+        state = CardState.ShowingFront;
     }
     
     
     private void OnMouseDown()
     {
-        anim.SetBool("Player_Clicked", true);
+        switch(state)
+        {
+            case CardState.ShowingFront:
+                anim.SetBool("ShowBack", true);
+                break;
+            case CardState.ShowingBack:
+                anim.SetBool("ShowFront", true);
+                break;
+        }
     }
 
     void InitializeCard()
-    {
+    {   
+        state = CardState.ShowingBack;
+
+
         anim = GetComponent<Animator>();
         rend = GetComponent<MeshRenderer>();
         rend.enabled = true;
