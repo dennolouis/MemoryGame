@@ -13,6 +13,9 @@ public class Card : MonoBehaviour
 
     MeshRenderer rend;
 
+    CardManager manager;
+
+
     enum CardState
     {
         ShowingBack,
@@ -21,11 +24,19 @@ public class Card : MonoBehaviour
 
     CardState state;
 
+
+
     private void Start()
     {
         InitializeCard();
     }
 
+
+    private void Update()
+    {
+        if(manager.FlipCardsback())
+            FlipBack();
+    }
     public void ApplyBackMaterial()
     {
         rend.sharedMaterial = back;
@@ -51,10 +62,19 @@ public class Card : MonoBehaviour
                 anim.SetBool("ShowFront", true);
                 break;
         }
+
+        manager.SetCard(this);
+    }
+
+    public void FlipBack()
+    {
+        anim.SetBool("ShowBack", true);
     }
 
     void InitializeCard()
     {   
+        manager = FindObjectOfType<CardManager>();
+
         state = CardState.ShowingBack;
 
 
@@ -73,5 +93,10 @@ public class Card : MonoBehaviour
     public void SetFrontMaterial(Material mat)
     {
         front = mat;
+    }
+
+    public Material GetFront()
+    {
+        return front;
     }
 }
