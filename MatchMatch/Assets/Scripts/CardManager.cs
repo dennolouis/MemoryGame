@@ -36,15 +36,7 @@ public class CardManager : MonoBehaviour
     {
         state = GameState.FlipFirstCard;
 
-        List<Material> mats = GetRandomMaterials();
-
-        for (var i = 0; i < 6; i++)
-        {
-            GameObject obj = Instantiate(card, new Vector3(i * offset + startX, startY, 0), Quaternion.identity);
-            Card c = obj.GetComponent<Card>();
-            c.SetBackMaterial(back);
-            c.SetFrontMaterial(mats[i]);
-        }
+        SpawnCards();
     }
 
     // Update is called once per frame
@@ -53,16 +45,29 @@ public class CardManager : MonoBehaviour
         
     }
 
-    List<Material> GetRandomMaterials()
+    void SpawnCards()
     {
-        List<Material> mats = new List<Material>();
+        List<int> mats = GetRandomMaterialIndexes();
+
+        for (var j = 0; j < 6; j++)
+        {
+            GameObject obj = Instantiate(card, new Vector3(j * offset + startX, startY, 0), Quaternion.identity);
+            Card c = obj.GetComponent<Card>();
+            c.SetBackMaterial(back);
+            c.SetFrontMaterial(materials[mats[j]]);
+        }
+    }
+
+    List<int> GetRandomMaterialIndexes()
+    {
+        List<int> mats = new List<int>();
 
         int notUsing = Random.Range(0, materials.Count);
 
         for(int i = 0; i < materials.Count * 2; i++)
         {
             if(i % materials.Count != notUsing)
-                mats.Add(materials[i % materials.Count]);
+                mats.Add(i % materials.Count);
         }
 
         int j = 0;
@@ -71,7 +76,7 @@ public class CardManager : MonoBehaviour
             int rand1 =  Random.Range(0, mats.Count);
             int rand2 =  Random.Range(0, mats.Count);
 
-            Material temp = mats[rand1];
+            int temp = mats[rand1];
 
             mats[rand1] = mats[rand2];
 
@@ -108,6 +113,12 @@ public class CardManager : MonoBehaviour
         if (firstCard.GetFront() == secondCard.GetFront())
         {
             print("match");
+            Destroy(firstCard.gameObject);
+            Destroy(secondCard.gameObject);
+        }
+        else
+        {
+            SpawnCards();
         }
         FlibBack();
 
@@ -128,6 +139,11 @@ public class CardManager : MonoBehaviour
     public bool FlipCardsback()
     {
         return state == GameState.FlipBack;
+    }
+
+    public bool CanFlip()
+    {
+        return state != GameState.CheckMatch;
     }
 
 }

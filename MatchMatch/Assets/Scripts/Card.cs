@@ -24,11 +24,12 @@ public class Card : MonoBehaviour
 
     CardState state;
 
-
-
+    float shiftvalue = 1;
     private void Start()
     {
         InitializeCard();
+        StartCoroutine(ShiftUp());
+        
     }
 
 
@@ -53,6 +54,7 @@ public class Card : MonoBehaviour
     
     private void OnMouseDown()
     {
+        if(!manager.CanFlip()) return;
         switch(state)
         {
             case CardState.ShowingFront:
@@ -85,6 +87,19 @@ public class Card : MonoBehaviour
         ApplyBackMaterial();
     }
 
+    IEnumerator ShiftUp()
+    {
+        Vector3 target = transform.position;
+        target.y += shiftvalue;
+
+        float speed = 1.5f;
+        while(transform.position != target)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+            yield return 0;
+        }
+    }
+
     public void SetBackMaterial(Material mat)
     {
         back = mat;
@@ -98,5 +113,15 @@ public class Card : MonoBehaviour
     public Material GetFront()
     {
         return front;
+    }
+
+    /// <summary>
+    /// OnCollisionEnter is called when this collider/rigidbody has begun
+    /// touching another rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    private void OnCollisionEnter(Collision other)
+    {
+        if(transform.position.y > -4.5 + shiftvalue) GetComponent<Rigidbody>().useGravity = true;
     }
 }
