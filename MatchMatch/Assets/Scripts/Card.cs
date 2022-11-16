@@ -124,4 +124,18 @@ public class Card : MonoBehaviour
     {
         if(transform.position.y > -4.5 + shiftvalue) GetComponent<Rigidbody>().useGravity = true;
     }
+
+    /// <summary>
+    /// OnTriggerExit is called when the Collider other has stopped touching the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    private void OnTriggerExit(Collider other)
+    {
+        GetComponent<Rigidbody>().useGravity = true;
+        GetComponent<Rigidbody>().isKinematic = false;
+
+    }
+
+
+
 }
