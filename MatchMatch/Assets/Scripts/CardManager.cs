@@ -19,8 +19,7 @@ public class CardManager : MonoBehaviour
     Card firstCard;
     Card secondCard;
 
-
-
+    [SerializeField] int numberOfCards = 0;
     enum GameState
     {
         FlipFirstCard,
@@ -48,6 +47,8 @@ public class CardManager : MonoBehaviour
     void SpawnCards()
     {
         List<int> mats = GetRandomMaterialIndexes();
+
+        numberOfCards += 6;
 
         for (var j = 0; j < 6; j++)
         {
@@ -105,6 +106,8 @@ public class CardManager : MonoBehaviour
                 StartCoroutine(HandleMatch());
                 break;
         }
+
+        //card.HighLight(true);
     }
 
     IEnumerator HandleMatch()
@@ -115,6 +118,8 @@ public class CardManager : MonoBehaviour
             print("match");
             Destroy(firstCard.gameObject);
             Destroy(secondCard.gameObject);
+            numberOfCards -= 2;
+            if(numberOfCards <= 0) SpawnCards();
         }
         else
         {
@@ -144,6 +149,11 @@ public class CardManager : MonoBehaviour
     public bool CanFlip()
     {
         return state != GameState.CheckMatch;
+    }
+
+    public void UnselectCard()
+    {
+        if(state == GameState.FlipSecondCard) state = GameState.FlipFirstCard;
     }
 
 }

@@ -25,6 +25,7 @@ public class Card : MonoBehaviour
     CardState state;
 
     float shiftvalue = 1;
+
     private void Start()
     {
         InitializeCard();
@@ -52,21 +53,28 @@ public class Card : MonoBehaviour
     }
     
     
-    private void OnMouseDown()
+
+     private void OnMouseDown()
     {
         if(!manager.CanFlip()) return;
-        switch(state)
-        {
-            case CardState.ShowingFront:
-                anim.SetBool("ShowBack", true);
-                break;
-            case CardState.ShowingBack:
-                anim.SetBool("ShowFront", true);
-                break;
-        }
-
+        anim.SetBool("ShowFront", true);
         manager.SetCard(this);
     }
+    // private void OnMouseDown()
+    // {
+    //     if(!manager.CanFlip()) return;
+    //     switch(state)
+    //     {
+    //         case CardState.ShowingFront:
+    //             anim.SetBool("ShowBack", true);
+    //             //manager.UnselectCard();
+    //             break;
+    //         case CardState.ShowingBack:
+    //             anim.SetBool("ShowFront", true);
+    //             manager.SetCard(this);
+    //             break;
+    //     }
+    // }
 
     public void FlipBack()
     {
@@ -135,7 +143,4 @@ public class Card : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = false;
 
     }
-
-
-
 }
