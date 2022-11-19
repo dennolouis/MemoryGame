@@ -19,7 +19,10 @@ public class CardManager : MonoBehaviour
     Card firstCard;
     Card secondCard;
 
+    [SerializeField] Vector3 fourCardScale;
+
     [SerializeField] int numberOfCards = 0;
+    
     enum GameState
     {
         FlipFirstCard,
@@ -27,6 +30,15 @@ public class CardManager : MonoBehaviour
         CheckMatch,
         FlipBack
     }
+
+    enum GameMode
+    {
+        FourCards,
+        SixCards,
+        Staggered
+    }
+
+    [SerializeField] GameMode mode;
 
     [SerializeField] GameState state;
 
@@ -46,20 +58,21 @@ public class CardManager : MonoBehaviour
 
     void SpawnCards()
     {
-        List<int> mats = GetRandomMaterialIndexes();
-
-        numberOfCards += 6;
-
-        for (var j = 0; j < 6; j++)
+        switch(mode)
         {
-            GameObject obj = Instantiate(card, new Vector3(j * offset + startX, startY, 0), Quaternion.identity);
-            Card c = obj.GetComponent<Card>();
-            c.SetBackMaterial(back);
-            c.SetFrontMaterial(materials[mats[j]]);
+            case GameMode.FourCards:
+                Spawn4();
+                break;
+            case GameMode.SixCards:
+                Spawn6();
+                break;
+            case GameMode.Staggered:
+                SpawnStaggered();
+                break;
         }
     }
 
-    List<int> GetRandomMaterialIndexes()
+    List<int> GetSixMaterialIndexes()
     {
         List<int> mats = new List<int>();
 
@@ -81,6 +94,42 @@ public class CardManager : MonoBehaviour
 
             mats[rand1] = mats[rand2];
 
+            mats[rand2] = temp;
+
+            j++;
+        }
+
+
+        return mats;
+    }
+
+    List<int> GetFourMaterialIndexes()
+    {
+        List<int> mats = new List<int>();
+
+        int notUsing = Random.Range(0, materials.Count);
+        int notUsing2 = Random.Range(0, materials.Count);
+
+        while(notUsing == notUsing2)
+        {
+            notUsing2 = Random.Range(0, materials.Count);
+        }
+
+        for(int i = 0; i < materials.Count * 2; i++)
+        {
+            if(i % materials.Count != notUsing && i != notUsing2)
+                mats.Add(i % materials.Count);
+        }
+
+        int j = 0;
+        while(j < 3)
+        {
+            int rand1 =  Random.Range(0, mats.Count);
+            int rand2 =  Random.Range(0, mats.Count);
+
+            int temp = mats[rand1];
+
+            mats[rand1] = mats[rand2];
 
             mats[rand2] = temp;
 
@@ -115,7 +164,6 @@ public class CardManager : MonoBehaviour
         yield return new WaitForSeconds(delayTime);
         if (firstCard.GetFront() == secondCard.GetFront())
         {
-            print("match");
             Destroy(firstCard.gameObject);
             Destroy(secondCard.gameObject);
             numberOfCards -= 2;
@@ -154,6 +202,58 @@ public class CardManager : MonoBehaviour
     public void UnselectCard()
     {
         if(state == GameState.FlipSecondCard) state = GameState.FlipFirstCard;
+    }
+
+    void Spawn4()
+    {
+        List<int> mats = GetFourMaterialIndexes();
+
+        numberOfCards += 4;
+
+        for(var j = 0; j < 4; j++)
+        {
+            GameObject obj = Instantiate(card, new Vector3(j * offset + startX, startY, 0), Quaternion.identity);
+        }
+    }
+
+    void Spawn6()
+    {
+        List<int> mats = GetSixMaterialIndexes();
+
+        numberOfCards += 6;
+
+        for (var j = 0; j < 6; j++)
+        {
+            GameObject obj = Instantiate(card, new Vector3(j * offset + startX, startY, 0), Quaternion.identity);
+            Card c = obj.GetComponent<Card>();
+            c.SetBackMaterial(back);
+            c.SetFrontMaterial(materials[mats[j]]);
+        }
+    }
+
+    void SpawnStaggered()
+    {
+        List<int> mats = GetFourMaterialIndexes();
+
+        numberOfCards += 4;
+
+        int notUsing = Random.Range(0, 6);
+        int notUsing2 = Random.Range(0, 6);
+
+        while(notUsing == notUsing2)
+        {
+            notUsing2 = Random.Range(0, 6);
+        }
+
+        for(int j = 0, i = 0; j < 6; j++)
+        {
+            if(j == notUsing || j == notUsing2) continue;
+
+            GameObject obj = Instantiate(card, new Vector3(j * offset + startX, startY, 0), Quaternion.identity);
+            Card c = obj.GetComponent<Card>();
+            c.SetBackMaterial(back);
+            c.SetFrontMaterial(materials[mats[i++]]);
+        }
     }
 
 }

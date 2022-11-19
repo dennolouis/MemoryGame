@@ -425,6 +425,9 @@ MonoBehaviour:
   startY: -5.5
   offset: 0.75
   delayTime: 1
+  fourCardScale: {x: 0, y: 0, z: 0}
+  numberOfCards: 0
+  mode: 2
   state: 0
 --- !u!4 &1371819818
 Transform:
