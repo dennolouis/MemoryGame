@@ -421,13 +421,14 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 27b0dfdef9e1546d684fa264f79fb139, type: 2}
   - {fileID: 2100000, guid: 095d9e04bf70f4363a3f052e0c65ebee, type: 2}
   - {fileID: 2100000, guid: d345cd9f72ea64e36bc92cf395c583a2, type: 2}
+  fourCardScale: {x: 1, y: 1, z: 0.1}
+  fourOffset: 1.65
   startX: -1.87
   startY: -5.5
   offset: 0.75
-  delayTime: 1
-  fourCardScale: {x: 0, y: 0, z: 0}
+  delayTime: 0.8
   numberOfCards: 0
-  mode: 2
+  mode: 0
   state: 0
 --- !u!4 &1371819818
 Transform:

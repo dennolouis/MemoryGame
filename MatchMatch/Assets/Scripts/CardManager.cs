@@ -10,6 +10,8 @@ public class CardManager : MonoBehaviour
 
     [SerializeField] List<Material> materials;
 
+    [SerializeField] Vector3 fourCardScale;
+    [SerializeField] float fourOffset;
     [SerializeField] float startX = -1.5f;
     [SerializeField] float startY = 0f;
     [SerializeField] float offset = 1f;
@@ -18,8 +20,6 @@ public class CardManager : MonoBehaviour
 
     Card firstCard;
     Card secondCard;
-
-    [SerializeField] Vector3 fourCardScale;
 
     [SerializeField] int numberOfCards = 0;
     
@@ -117,7 +117,7 @@ public class CardManager : MonoBehaviour
 
         for(int i = 0; i < materials.Count * 2; i++)
         {
-            if(i % materials.Count != notUsing && i != notUsing2)
+            if(i % materials.Count != notUsing && i % materials.Count != notUsing2)
                 mats.Add(i % materials.Count);
         }
 
@@ -161,9 +161,9 @@ public class CardManager : MonoBehaviour
 
     IEnumerator HandleMatch()
     {
-        yield return new WaitForSeconds(delayTime);
         if (firstCard.GetFront() == secondCard.GetFront())
         {
+            yield return new WaitForSeconds(delayTime);
             Destroy(firstCard.gameObject);
             Destroy(secondCard.gameObject);
             numberOfCards -= 2;
@@ -171,10 +171,10 @@ public class CardManager : MonoBehaviour
         }
         else
         {
+            yield return new WaitForSeconds(delayTime/3);
             SpawnCards();
         }
         FlibBack();
-
     }
     void FlibBack()
     {
@@ -185,7 +185,7 @@ public class CardManager : MonoBehaviour
 
     IEnumerator ResetState()
     {
-        yield return new WaitForSeconds(delayTime);
+        yield return new WaitForSeconds(delayTime/3);
         state = GameState.FlipFirstCard;
     }
 
@@ -196,7 +196,7 @@ public class CardManager : MonoBehaviour
 
     public bool CanFlip()
     {
-        return state != GameState.CheckMatch;
+        return (state != GameState.CheckMatch) && (state != GameState.FlipBack);
     }
 
     public void UnselectCard()
@@ -212,7 +212,15 @@ public class CardManager : MonoBehaviour
 
         for(var j = 0; j < 4; j++)
         {
-            GameObject obj = Instantiate(card, new Vector3(j * offset + startX, startY, 0), Quaternion.identity);
+            GameObject obj = Instantiate(card, new Vector3(j * offset * fourOffset + startX, startY, 0), Quaternion.identity);
+            obj.transform.localScale = fourCardScale;
+            
+            Card c = obj.GetComponent<Card>();
+            c.SetShiftValue(1.2f);
+            c.SetBackMaterial(back);
+            c.SetFrontMaterial(materials[mats[j]]);
+
+        
         }
     }
 

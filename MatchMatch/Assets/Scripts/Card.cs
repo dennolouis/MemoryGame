@@ -92,12 +92,13 @@ public class Card : MonoBehaviour
         rend = GetComponent<MeshRenderer>();
         rend.enabled = true;
         
-        ApplyBackMaterial();
+        //ApplyFrontMaterial();
     }
 
     IEnumerator ShiftUp()
     {
         Vector3 target = transform.position;
+        
         target.y += shiftvalue;
 
         float speed = 1.5f;
@@ -121,6 +122,11 @@ public class Card : MonoBehaviour
     public Material GetFront()
     {
         return front;
+    }
+
+    public void SetShiftValue(float value)
+    {
+        shiftvalue = value;
     }
 
     /// <summary>
