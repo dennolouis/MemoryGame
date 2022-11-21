@@ -42,9 +42,13 @@ public class CardManager : MonoBehaviour
 
     [SerializeField] GameState state;
 
+    Player player;
+
     // Start is called before the first frame update
     void Start()
     {
+        player = FindObjectOfType<Player>();
+
         state = GameState.FlipFirstCard;
 
         SpawnCards();
@@ -167,6 +171,7 @@ public class CardManager : MonoBehaviour
             Destroy(firstCard.gameObject);
             Destroy(secondCard.gameObject);
             numberOfCards -= 2;
+            player.AddScore(2);
             if(numberOfCards <= 0) SpawnCards();
         }
         else
