@@ -74,6 +74,15 @@ public class CardManager : MonoBehaviour
                 SpawnStaggered();
                 break;
         }
+
+        if(player.GetScore() > 40)
+        {
+            mode = GameMode.Staggered;
+        }
+        else if(player.GetScore() > 15)
+        {
+            mode = GameMode.SixCards;
+        }
     }
 
     List<int> GetSixMaterialIndexes()
